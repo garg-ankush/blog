@@ -6,8 +6,10 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="Ankush Garg">
+<meta name="dcterms.date" content="2023-02-09">
 
-<title>My Blog Post – Ankush’s blog</title>
+<title>Deploy your chatGPT-like app with Chainlit and AWS ECS – Ankush’s blog</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -142,14 +144,26 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
-      <h1 class="title">My Blog Post</h1>
+      <h1 class="title">Deploy your chatGPT-like app with Chainlit and AWS ECS</h1>
                       </div>
   </div>
     
   
   <div class="quarto-title-meta">
 
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Ankush Garg </p>
+            </div>
+    </div>
       
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">February 9, 2023</p>
+      </div>
+    </div>
     
       
     </div>
@@ -166,11 +180,149 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 
-<p>In this post, we’ll explore some interesting data analysis using a Jupyter Notebook.</p>
-<pre class="{include-notebook}"><code>index.ipynb</code></pre>
-<div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"testing"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><img src="main.jpg" class="img-fluid"></p>
+<p>🔗💡<em>Chainlit is an open-source Python package that allows you to create ChatGPT-like UIs on top of any Python code in just minutes! Visit the&nbsp;<a href="https://github.com/Chainlit/chainlit">GitHub repo</a>&nbsp;to get started!</em></p>
+<p><strong>This post is designed to guide you through deploying your Chainlit apps to AWS ECS.</strong></p>
+<p>In this tutorial, we’ll be using this&nbsp;<a href="https://github.com/garg-ankush/cookbook/tree/aws-ecs-deployment/aws-ecs-deployment">sample example</a>. Feel free to use your own application instead.</p>
+<p>Prerequisites:</p>
+<ol type="1">
+<li>Python ≥ 3.9</li>
+<li>AWS account</li>
+<li>Docker</li>
+</ol>
+<section id="table-of-contents" class="level1">
+<h1>Table of Contents</h1>
+<ol type="1">
+<li><a href="#Setup">Create an AWS account and set up credentials 🚀</a></li>
+<li><a href="#Clone">Clone the repo&nbsp;- bypass if you already an ongoing chainlit project 🧫</a></li>
+<li><a href="#Dockerfile">Dockerfile 🐳</a></li>
+<li><a href="#Locally">Run the Chainlit app locally 🏡</a></li>
+<li><a href="#ECR">Create ECR and push the image 📌</a></li>
+<li><a href="#RunTask">Create task definition and service and run task 🏃🏼‍♀️</a></li>
+<li><a href="#Test">Test out the application 💯</a></li>
+<li><a href="#NextSteps">Ideas for next steps 🪜</a></li>
+</ol>
+<section id="step-1-create-an-aws-account-and-set-up-credentials" class="level2">
+<h2 class="anchored" data-anchor-id="step-1-create-an-aws-account-and-set-up-credentials">Step 1: Create an AWS account and set up credentials 🚀 <a name="Setup"></a></h2>
+<p>Follow steps in this <a href="https://awscli.amazonaws.com/v2/documentation/api/latest/reference/configure/index.html">blog post</a> by AWS to configure AWS CLI.</p>
+</section>
+<section id="step-2-clone-the-repo---bypass-if-you-already-an-ongoing-chainlit-project" class="level2">
+<h2 class="anchored" data-anchor-id="step-2-clone-the-repo---bypass-if-you-already-an-ongoing-chainlit-project">Step 2: Clone the repo - bypass if you already an ongoing chainlit project 🧫 <a name="Clone"></a></h2>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone https://github.com/Chainlit/cookbook.git chainlit-cookbook</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Navigate to the app folder:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> chainlit-cookbook/aws-ecs-deployment</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="step-3-dockerfile" class="level2">
+<h2 class="anchored" data-anchor-id="step-3-dockerfile">Step 3: Dockerfile 🐳 <a name="Dockerfile"></a></h2>
+<div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Use an appropriate base image, e.g., python:3.10-slim</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>FROM python:<span class="fl">3.10</span><span class="op">-</span>slim</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Set environment variables (e.g., set Python to run in unbuffered mode)</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>ENV PYTHONUNBUFFERED <span class="dv">1</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Set the working directory</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>WORKDIR <span class="op">/</span>app</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Copy your application's requirements and install them</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>COPY requirements.txt <span class="op">/</span>app<span class="op">/</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>RUN pip install <span class="op">-</span>r <span class="op">/</span>app<span class="op">/</span>requirements.txt</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Copy your application code into the container</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>COPY . <span class="op">/</span>app<span class="op">/</span></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>EXPOSE <span class="dv">8080</span></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>CMD [<span class="st">"python"</span>, <span class="st">"-m"</span>, <span class="st">"chainlit"</span>, <span class="st">"run"</span>, <span class="st">"app.py"</span>, <span class="st">"-h"</span>, <span class="st">"--port"</span>, <span class="st">"8080"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>❗ If you’re on Mac M1, replace the first line in Dockerfile with <code>FROM --platform=linux/amd64 python:3.9-slim</code></strong></p>
+<blockquote class="blockquote">
+<p>Our app is exposed on port 8080. We’ll be using this port in multiple locations.&gt;</p>
+</blockquote>
+</section>
+<section id="step-4-run-the-chainlit-app-locally" class="level2">
+<h2 class="anchored" data-anchor-id="step-4-run-the-chainlit-app-locally">Step 4: Run the Chainlit app locally 🏡 <a name="Locally"></a></h2>
+<p>🚧 Make sure Docker Daemon is running.</p>
+<p>First, build the docker image and test that the app works locally.</p>
+<pre class="docker"><code>docker build -t chainlit-app:latest .</code></pre>
+<p>Here’s what it looks like for me.</p>
+<p><img src="docker-running-locally.png" class="img-fluid"></p>
+<p>Now, let’s confirm that the image was built successfully.</p>
+<pre class="docker"><code>docker images</code></pre>
+<p><img src="image-created.png" class="img-fluid"></p>
+<p>Let’s run the app locally and navigate to <a href="http://localhost:8080"><code>localhost:8080</code></a> 🥂</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>docker run <span class="op">-</span>p <span class="dv">8080</span>:<span class="dv">8080</span> chainlit:latest</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><img src="chainlit-running.png" class="img-fluid"></p>
+</section>
+<section id="step-5-create-ecr-and-push-the-image" class="level2">
+<h2 class="anchored" data-anchor-id="step-5-create-ecr-and-push-the-image">Step 5: Create ECR and push the image 📌 <a name="ECR"></a></h2>
+<p>Let’s head over to AWS ECR and create a repository where we’ll push our docker image to.</p>
+<p><img src="create-ECR-repo.png" class="img-fluid"></p>
+<p>Once a repository is created, let’s push an image to it. Head over to the repository and click <code>View push commands</code>.</p>
+<p><img src="view-push.png" class="img-fluid"></p>
+<p>Let’s follow the helper commands to push our image to the <code>Chainlit-demo-app</code> repository we just created.</p>
+<p>🚧 Note, we already created built an image to test the app locally. But that’s ok, let’s rebuild the image again to avoid confusion.</p>
+<p><img src="push-commands.png" class="img-fluid"></p>
+<p>Awesome, this is what it looks like on my end.</p>
+<p><img src="pushed.png" class="img-fluid"></p>
+<p>Let’s see if we find the image on AWS.</p>
+<p><img src="find-pushed-image-aws.png" class="img-fluid"></p>
+<p>🚧 Take note of the image URI - we’ll need it later.</p>
+<p>Great, our repository and our image is set. Let’s head over to ECS to create a service and a task.</p>
+</section>
+<section id="step-6-create-task-definition-and-service-and-run-task" class="level2">
+<h2 class="anchored" data-anchor-id="step-6-create-task-definition-and-service-and-run-task">Step 6: Create task definition and service and run task 🏃🏼‍♀️ <a name="RunTask"></a></h2>
+<section id="create-a-new-cluster" class="level3">
+<h3 class="anchored" data-anchor-id="create-a-new-cluster">Create a new cluster</h3>
+<p><img src="create-cluster.png" class="img-fluid"></p>
+<p><img src="fill-in-cluster-details.png" class="img-fluid"></p>
+<p>Click create and we should see a new cluster <code>chainlit-demo-app-cluster</code> has been created for us.</p>
+</section>
+<section id="create-a-task-definition" class="level3">
+<h3 class="anchored" data-anchor-id="create-a-task-definition">Create a task definition</h3>
+<p><img src="create-task-definition.png" class="img-fluid"></p>
+<p><img src="configure-task-definition.png" class="img-fluid"></p>
+<p>🚧 Make sure the container port matches the port we exposed in the Dockerfile.</p>
+<p>Leave everything else as default and create our task definition.</p>
+<p><img src="fill-in-task-details.png" class="img-fluid"></p>
+</section>
+<section id="create-a-service" class="level3">
+<h3 class="anchored" data-anchor-id="create-a-service">Create a service</h3>
+<p><img src="create-service-1.png" class="img-fluid"></p>
+<p><img src="create-service-2.png" class="img-fluid"></p>
+<p><img src="create-service-3.png" class="img-fluid"></p>
+<p>We should be good to create our service. Let’s hit it 👊🏼</p>
+<p>🚧 It may take a few minutes for the service to be ready.</p>
+<p>Map the ports correctly.</p>
+<p><strong>❗ One last thing we need to do before our task is ready is to allow traffic to the right port. You may have these set up already but if not, set the ports so that you allow all incoming traffic to port 8080.</strong></p>
+<p><img src="security-groups.png" class="img-fluid"></p>
+<p><img src="edit-inbound-rules-1.png" class="img-fluid"></p>
+<p><img src="edit-inbound-rules-2.png" class="img-fluid"></p>
+<p>Your task should be running at this point. Head over to the tasks tab of the <code>chainlit-demo-app-service</code> .</p>
+<p><img src="show-demo-app-service.png" class="img-fluid"></p>
+<p><img src="get-public-ip.png" class="img-fluid"></p>
+<p>🚧 Our app is exposed at this public IP: <code>52.204.71.81:8080</code></p>
+</section>
+</section>
+<section id="step-7-test-out-the-application" class="level2">
+<h2 class="anchored" data-anchor-id="step-7-test-out-the-application">Step 7: Test out the application 💯 <a name="Test"></a></h2>
+<p>Head over to the public IP in the browser to see our app in action!</p>
+<p><img src="success.png" class="img-fluid"></p>
+</section>
+<section id="step-8-ideas-for-next-steps" class="level2">
+<h2 class="anchored" data-anchor-id="step-8-ideas-for-next-steps">Step 8: Ideas for next steps 🪜 <a name="NextSteps"></a></h2>
+<ol type="1">
+<li>We have our app running on a weird public IP address - we can connect it to our own domain.</li>
+<li>Load Balancer - Will give us a better performance and high availability.</li>
+<li>Right now our is not very secure. AWS Certificate Manager makes getting an SSL certificate relatively straightforward.</li>
+</ol>
+<p>I hope this helps the growing Chainlit community! Hit me up in the Chainlit Discord (ankushgarg) if you have any questions about the walkthrough.</p>
+<p><strong>Resources:</strong></p>
+<p><a href="https://dev.to/willydouhard/how-to-deploy-your-chainlit-app-to-flyio-38ja">Deploy to Fly.io</a></p>
+<p><a href="https://pseudohvr.medium.com/deploying-chainlit-on-gcp-72231ba6b77f">Deploy to GCP</a></p>
 
 
+</section>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

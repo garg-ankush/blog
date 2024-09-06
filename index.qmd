@@ -3,7 +3,7 @@ title: "Blog"
 listing:
   contents: posts
   sort: "date desc"
-  type: grid
+  type: table
   categories: true
   sort-ui: false
   filter-ui: false
