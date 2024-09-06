@@ -13,5 +13,14 @@
   },
   "posts/welcome/index.ipynb": {
     "index.html": "fcbc7e5f"
+  },
+  "posts/ML-clerk/index.qmd": {
+    "index.html": "3e0b3828"
+  },
+  "posts/ML-clerk/index.md": {
+    "index.html": "2fb2903d"
+  },
+  "posts/Chainlit-deployment/index.md": {
+    "index.html": "7d454074"
   }
 }
