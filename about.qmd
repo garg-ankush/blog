@@ -1,19 +1,18 @@
 ---
 title: "About Me"
-image: profile.jpg
+image: profile.jpeg
 about:
-  template: solana
-  links:
-    - icon: twitter
-      text: Twitter
-      href: https://twitter.com
-    - icon: linkedin
-      text: LinkedIn
-      href: https://linkedin.com
-    - icon: github
-      text: Github
-      href: https://github.com
+  template: jolla
 
 ---
 
-About this blog
+Hi there, it's Ankush 👋
+
+🔭 I’m currently working on getting my Master's in Data Science at UC Berkeley
+
+🌱 I’m currently thinking how to apply my data science skills to price transparency in healthcare
+
+💬 I write sometimes on my [blog](ankushgarg.com)
+
+📫 I'm reachable on [linkedIn](https://www.linkedin.com/in/garg-ankush/) or by email at [ankush-garg@berkeley.edu](ankush-garg@berkeley.edu)
+
