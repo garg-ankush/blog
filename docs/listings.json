@@ -2,6 +2,7 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/Monte-carlo-simulation/main.html",
       "/posts/ML-clerk/index.html",
       "/posts/Chainlit-deployment/index.html"
     ]
