@@ -8,8 +8,6 @@ format:
         code-summary: "Show the code"
         embed-resources: true
 jupyter: python3
-execute:
-  freeze: true
 ---
 
 ```{python}

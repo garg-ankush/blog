@@ -58,5 +58,8 @@
   },
   "posts/Monte-Carlo/main.qmd": {
     "main.html": "281482b1"
+  },
+  "posts/Monte-Carlo/index.qmd": {
+    "index.html": "954abe01"
   }
 }
