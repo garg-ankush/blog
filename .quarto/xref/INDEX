@@ -25,5 +25,38 @@
   },
   "blog.qmd": {
     "blog.html": "2323b4c5"
+  },
+  "posts/Job-skills/analysis.ipynb": {
+    "analysis.html": "aded0af1"
+  },
+  "posts/Job-skills/test.qmd": {
+    "test.html": "9527a2cb"
+  },
+  "posts/ML-clerk/analysis.ipynb": {
+    "analysis.html": "bdea3b2b"
+  },
+  "posts/Job-skills/test3.qmd": {
+    "test3.html": "cd0fa637"
+  },
+  "posts/Chainlit-deployment/index 2.md": {
+    "index 2.html": "214e7459"
+  },
+  "posts/Monte-carlo-simulation/main.ipynb": {
+    "main.html": "cecfcbbd"
+  },
+  "posts/Monte-carlo-simulation/test.qmd": {
+    "test.html": "bc4acc62"
+  },
+  "posts/Monte-carlo-simulation/test2.qmd": {
+    "test2.html": "3d2d045a"
+  },
+  "posts/Monte-carlo-simulation/main.qmd": {
+    "main.html": "b0a63acb"
+  },
+  "wip/Job-skills/test.qmd": {
+    "test.html": "7cb64c2f"
+  },
+  "posts/Monte-Carlo/main.qmd": {
+    "main.html": "281482b1"
   }
 }
