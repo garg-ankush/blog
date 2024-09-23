@@ -1,27 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://garg-ankush.github.io/blog/wip/Job-skills/test.html</loc>
-    <lastmod>2024-09-19T21:59:13.603Z</lastmod>
-  </url>
-  <url>
-    <loc>https://garg-ankush.github.io/blog/index.html</loc>
-    <lastmod>2024-09-19T21:05:50.124Z</lastmod>
+    <loc>https://garg-ankush.github.io/blog/about.html</loc>
+    <lastmod>2024-09-23T20:54:33.601Z</lastmod>
   </url>
   <url>
     <loc>https://garg-ankush.github.io/blog/posts/Chainlit-deployment/index.html</loc>
-    <lastmod>2024-09-19T21:05:50.137Z</lastmod>
+    <lastmod>2024-09-23T20:54:33.725Z</lastmod>
   </url>
   <url>
-    <loc>https://garg-ankush.github.io/blog/posts/ML-clerk/index.html</loc>
-    <lastmod>2024-09-19T21:05:50.142Z</lastmod>
+    <loc>https://garg-ankush.github.io/blog/index.html</loc>
+    <lastmod>2024-09-23T20:54:33.701Z</lastmod>
   </url>
   <url>
     <loc>https://garg-ankush.github.io/blog/posts/Monte-Carlo/index.html</loc>
-    <lastmod>2024-09-21T17:35:09.848Z</lastmod>
+    <lastmod>2024-09-23T20:54:33.736Z</lastmod>
   </url>
   <url>
-    <loc>https://garg-ankush.github.io/blog/about.html</loc>
-    <lastmod>2024-09-19T21:05:50.107Z</lastmod>
+    <loc>https://garg-ankush.github.io/blog/posts/ML-clerk/index.html</loc>
+    <lastmod>2024-09-23T20:54:33.736Z</lastmod>
   </url>
 </urlset>
