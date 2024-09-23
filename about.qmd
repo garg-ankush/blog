@@ -10,9 +10,6 @@ Hi there, it's Ankush 👋
 
 🔭 I’m currently working on getting my Master's in Data Science at UC Berkeley
 
-🌱 I’m currently thinking how to apply my data science skills to price transparency in healthcare
-
-💬 I write sometimes on my [blog](ankushgarg.com)
+🌱 I’m thinking how to apply my data skills to various problems in healthcare
 
 📫 I'm reachable on [linkedIn](https://www.linkedin.com/in/garg-ankush/) or by email at [ankush-garg@berkeley.edu](ankush-garg@berkeley.edu)
-

@@ -3,3 +3,9 @@
 /_site/
 .quarto/xref/cb815380
 .quarto/xref/cb815380
+wip/Job-skills/__init__.py
+wip/Job-skills/cleaned_up.csv
+wip/Job-skills/helpers.py
+wip/Job-skills/test.qmd
+wip/Job-skills/__pycache__/helpers.cpython-312.pyc
+docs/wip/Job-skills/test.html
