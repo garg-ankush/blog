@@ -9,7 +9,7 @@ website:
       - about.qmd
       - icon: github
         href: https://github.com/garg-ankush
-  google-analytics: "G-LTF7YR625J"
+  google-analytics: "${{ secrets.GOOGLE_ANALYTICS_ID }}"
 format:
   html:
     theme: cosmo
