@@ -9,8 +9,8 @@ website:
       - about.qmd
       - icon: github
         href: https://github.com/garg-ankush
-    google-analytics: 
-      tracking_id: "G-YD8TFFLSY6"
+  google-analytics: 
+    tracking_id: "G-YD8TFFLSY6"
 format:
   html:
     theme: cosmo
